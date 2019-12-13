@@ -1,4 +1,19 @@
 ﻿/* custom downr elements */
+h1, h2, h3, h4, h5, h6, .card-title {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.card {
+  font-size: 1.2em;
+}
+
+.card-title {
+  font-size: 1.4em;
+}
 
 .card-title a {
   color: #333;
@@ -13,13 +28,20 @@
 }
 
 .card-columns {
-  column-count: 3;
+  column-count: 2;
   @include media-breakpoint-only(lg) {
     column-count: 4;
   }
   @include media-breakpoint-only(xl) {
     column-count: 5;
   }
+}
+
+pre {
+  font-family: 'Roboto Mono', monospace;
+  border: dotted 1px #aaa;
+  background-color: #eee;
+  padding: 10px 20px 10px 20px;
 }
 
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification

@@ -29,6 +29,7 @@ namespace downr
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddServerSideBlazor();
             services.AddOptions();
 
             services.AddResponseCompression(options =>
@@ -78,22 +79,13 @@ namespace downr
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapBlazorHub();
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "blog-feed-rss",
                     pattern: "/feed/rss",
                     defaults: new { controller = "Feed", Action = "Rss" }
-                );
-                endpoints.MapControllerRoute(
-                    name: "blog-post",
-                    pattern: "/posts/{slug}",
-                    defaults: new { controller = "Posts", Action = "Post" }
-                );
-                endpoints.MapControllerRoute(
-                    name: "blog-categories",
-                    pattern: "/category/{name}",
-                    defaults: new { controller = "Posts", Action = "Category" }
                 );
             });
 
