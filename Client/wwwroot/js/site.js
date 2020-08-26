@@ -1,5 +1,5 @@
 window.scrollIntoView = () => {
-    document.getElementById('loadMorePostsButton').scrollIntoView({behavior: 'smooth'});
+    document.getElementById('footer').scrollIntoView({behavior: 'smooth'});
 };
 
 window.scrollToTop = () => {
@@ -11,4 +11,14 @@ window.trackWithGoogle = (ua) => {
     window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
     ga('create', ua, 'auto');
     ga('send', 'pageview');
+};
+
+window.setTitle = (title) => {
+    document.title = title;
+};
+
+window.readyHighlightJs = () => {
+    document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
 };

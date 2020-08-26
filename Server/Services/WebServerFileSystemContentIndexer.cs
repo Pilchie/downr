@@ -16,21 +16,25 @@ namespace downr.Services
     public class WebServerFileSystemContentIndexer : IYamlIndexer
     {
         private readonly ILogger logger;
-        public List<Post> Posts { get; set; }
+        public List<Post> Posts { get; set; } = new List<Post>();
         private readonly PostFileParser postFileParser;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly PostFileSorter postFileSorter;
 
         public WebServerFileSystemContentIndexer(ILogger<WebServerFileSystemContentIndexer> logger,
             PostFileParser postFileParser,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            PostFileSorter postFileSorter)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.postFileParser = postFileParser;
             this.logger = logger;
+            this.postFileSorter = postFileSorter;
         }
         public Task IndexContentFiles()
         {
             logger.LogInformation("Loading posts from disk...");
+            this.Posts.Clear();
 
             if (string.IsNullOrWhiteSpace(webHostEnvironment.WebRootPath))
             {
@@ -40,6 +44,11 @@ namespace downr.Services
             
             var contentPath = Path.Combine(webHostEnvironment.WebRootPath, "posts");
 
+            if (!Directory.Exists(contentPath))
+            {
+                Directory.CreateDirectory(contentPath);
+            }
+
             Posts = Directory.GetDirectories(contentPath)
                                 .Select(dir => Path.Combine(dir, "index.md"))
                                 .Select(ParseMetadataPrivate)
@@ -48,6 +57,8 @@ namespace downr.Services
                                 .ToList();
 
             logger.LogInformation("Loaded {0} posts", Posts.Count);
+
+            this.Posts = postFileSorter.Sort(this.Posts);
 
             return Task.CompletedTask;
         }

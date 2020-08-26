@@ -42,9 +42,17 @@ namespace downr.Controllers
 
         [HttpGet]
         [Route("api/post/{slug}")]
-        public ActionResult<Post> GetPost([FromRoute] string slug)
+        public ActionResult<PostPageModel> GetPost([FromRoute] string slug)
         {
-            return _postService.GetPostBySlug(slug);
+            var post = _postService.GetPostBySlug(slug);
+            var others = _postService.GetPreviousAndNextPosts(slug);
+
+            return new PostPageModel
+            {
+                Post = post,
+                NextPost = others.next,
+                PreviousPost = others.previous
+            };
         }
 
         [HttpGet]
@@ -52,7 +60,26 @@ namespace downr.Controllers
         public ActionResult ReIndex()
         {
             _yamlIndexer.IndexContentFiles();
-            return Ok();
+            return Redirect("/");
+        }
+
+        [HttpGet]
+        [Route("api/categories")]
+        public ActionResult<List<string>> GetCategories()
+        {
+            return new JsonResult(_postService.GetCategories());
+        }
+
+        [HttpGet]
+        [Route("api/categories/{name}/posts")]
+        public ActionResult<PostListModel> GetPostsInCategory([FromRoute] string name)
+        {
+            var posts = _postService.GetPostsInCategory(name);
+            var model = new PostListModel
+            {
+                Posts = posts
+            };
+            return new JsonResult(model);
         }
 
         private PostListModel GetPostList(int page, string category = null)

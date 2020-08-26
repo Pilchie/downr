@@ -38,8 +38,8 @@ namespace downr.Server
 
             // add downr 
             services.AddDownr(Configuration)
-                    //.WithAzureStorage(); // using azure storage blobs
-                    .WithWebServerFileSystemStorage(); // with web server storasge
+                    //.WithAzureStorage();
+                    .WithWebServerFileSystemStorage();
             
             // add asp.net services
             services.AddControllersWithViews();
@@ -47,9 +47,7 @@ namespace downr.Server
         }
 
         public void Configure(IApplicationBuilder app, 
-            IWebHostEnvironment env,
-            IOptions<DownrOptions> downrOptions,
-            IYamlIndexer yamlIndexer)
+            IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -84,8 +82,8 @@ namespace downr.Server
             });
 
             app.UseDownr()
-               //.UseAzureStorage(); // use azure blob storage
-               .UseWebServerFileSystemStorage(); // use local web server storage
+                //.UseAzureStorage();
+                .UseWebServerFileSystemStorage();
         }
     }
 }

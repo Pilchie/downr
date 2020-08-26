@@ -18,50 +18,55 @@
         </div>
     </div>
 </header>
-
 <div class="container">
     <main role="main" class="pb-3">
         @Body
     </main>
 </div>
 
-<footer class="footer">
+<footer class="footer" id="footer">
     <div class="container">
 
         <div class="row justify-content-md-center">
-            <h2 class="col text-center title">other stuff</h2>
+            <h2 class="col text-center title">@options.FooterHeadingText</h2>
         </div>
         <hr/>
-        <div class="card-deck">
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">Connect with me</h5>
-                <p class="card-text">
-                    <ul>
-                        <li><a href="https://github.com/Pilchie">GitHub</a></li>
-                        <li><a href="https://twitter.com/Pilchie">Twitter</a></li>
-                        <li><a href="https://www.linkedin.com/in/Pilchie/">LinkedIn</a></li>
-                    </ul>
-                </p>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static post">
+                        <h4 class="mb-0">Connect with me</h4>
+                        <p class="card-text mb-auto">
+                            <ul>
+                                <li><a href="https://github.com/Pilchie">GitHub</a></li>
+                                <li><a href="https://twitter.com/Pilchie">Twitter</a></li>
+                                <li><a href="https://www.linkedin.com/in/Pilchie/">LinkedIn</a></li>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Blog engine</h5>
-                    <p class="card-text">Powered by Brady Gaster's Downr blog engine.</p>
-                </div>
-                <div class="card-footer">
-                    <p class="card-text"><small class="text-muted"><a href="https://github.com/bradygaster/downr" title="The Downr project repository">Downr on GitHub</a></small></p>
+            <div class="col-md-6">
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static post">
+                        <h4 class="mb-0">Blog engine</h4>
+                        <p class="card-text mb-auto">
+                            <ul>
+                                <li><a href="https://github.com/bradygaster/downr" target="_blank">Downr on GitHub</a></li>
+                                <li><a href="https://github.com/dotnet/machinelearning" target="_blank">ML.NET GitHub repo</a></li>
+                                <li><a href="https://dotnet.microsoft.com/dotnet/machinelearning-samples" target="_blank">ML.NET Samples</a></li>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+        @if(options.ShowCopyright)
+        {
         <hr/>
         <div class="row justify-content-md-center">
             <h2 class="col text-center title">copyright &copy; @options.Author </h2>
         </div>
-        <hr/>
-        <div class="row justify-content-md-center">
-            <button id="topButton" class="btn btn-secondary btn-center" onclick="scrollToTop();">back to top</button>
-        </div>
+        }
     </div>
 </footer>

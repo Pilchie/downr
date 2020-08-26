@@ -61,5 +61,62 @@ namespace downr
         /// </summary>
         /// <value></value>
         public int AutoRefreshInterval { get; set; } = 0;
+
+        /// <summary>
+        /// The site mode, which can either be set to "Blog" (the default) or "Workshop." 
+        /// When in Workshop mode, posts will need to have a "Phase" and a "Step" property identified,
+        /// otherwise they will be omitted during indexing.
+        /// 
+        /// When in Blog mode, the posts will be shown chronologically, newest-to-oldest.
+        /// 
+        /// When in Workshop mode, the posts will be shown ordered by their Phase and Step 
+        /// properties. They'll be sorted first by Phase, then by Step, as each workshop Phase
+        /// will have multiple steps.
+        /// </summary>
+        /// <value></value>
+        public SiteMode SiteMode { get; set; } = SiteMode.Blog;
+
+        /// <summary>
+        /// If this is omitted from appsettings.json the image will be hidden.
+        /// </summary>
+        /// <value></value>
+        public string HeaderImage { get; set; }
+
+        /// <summary>
+        /// When set to false, the topmost bar in the UI is hidden. Default is true.
+        /// </summary>
+        /// <value></value>
+        public bool ShowTopMostTitleBar { get; set; } = true;
+
+        /// <summary>
+        /// When set to false, the category bar is hidden. Default is true.
+        /// </summary>
+        /// <value></value>
+        public bool ShowCategoryMenu { get; set; } = true;
+
+        /// <summary>
+        /// The text displayed at the top of the footer.
+        /// </summary>
+        /// <value></value>
+        public string FooterHeadingText { get; set; } = "Other interesting stuff";
+
+        /// <summary>
+        /// Defines if the copyright message in the footer should be shown. Default is true.
+        /// </summary>
+        /// <value></value>
+        public bool ShowCopyright { get; set; } = true;
+
+        /// <summary>
+        /// Defines whether "Phase X:" labels are shown in the phase menu 
+        /// when in workshop mode. Default is true.
+        /// </summary>
+        /// <value></value>
+        public bool ShowPhaseLabels { get; set; } = true;
+    }
+
+    public enum SiteMode : int
+    {
+        Blog = 0,
+        Workshop = 1
     }
 }

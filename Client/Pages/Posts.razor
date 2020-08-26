@@ -1,27 +1,64 @@
 @page "/posts/{slug}"
 @using downr.Models
 @inject HttpClient Http
-@inject Microsoft.Extensions.Options.IOptions<downr.DownrOptions> downrOptions
+@inject DownrOptions downrOptions
+@inject IJSRuntime JSRuntime
 
-<div class="text">
-    <h1 class="display-4">@Post.Title</h1>
-    <div id="post">
-        @((MarkupString)Post.Content)
-    </div>
+<div class="container-fluid">
+    @if(PostPageModel != null)
+    {
+    <Header Post="PostPageModel.Post"/>
+    }
 </div>
+
+@if(PostPageModel != null && PostPageModel.Post != null)
+{
+<NextAndPrevious PostPageModel="PostPageModel"/>
+<main role="main" class="container">
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+        <div class="col-md-12 p-4 d-flex flex-column position-static blog-main">
+            <div class="blog-post">
+                <h2 class="blog-post-title">@PostPageModel.Post.Title</h2>
+                @if(downrOptions.SiteMode == SiteMode.Blog) { // workshops are effectively backwards so we change the text here
+                    <p class="blog-post-meta">@PostPageModel.Post.PublicationDate.ToString("MMMM dd, yyyy") by <a href="#">@PostPageModel.Post.Author</a></p>
+                } else {
+                    <p class="blog-post-meta">Phase @PostPageModel.Post.Phase, Step @PostPageModel.Post.Step</p>
+                }
+                @((MarkupString)PostPageModel.Post.Content)
+            </div>
+        </div>
+    </div>
+</main>
+<NextAndPrevious PostPageModel="PostPageModel"/>
+}
 
 <Tracker/>
 
 @code {
     [Parameter]
-    public string Slug { get; set; }
+    public string Slug{ get; set; }
 
-    public Post Post { get; set; } = new Post();
+    public PostPageModel PostPageModel { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-      Slug = Slug ?? "";
-      if(string.IsNullOrEmpty(Slug)) return;
-      Post = await Http.GetFromJsonAsync<Post>($"{downrOptions.Value.RootUrl}/api/post/{Slug}");
+        Slug = Slug ?? "";
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("readyHighlightJs");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(string.IsNullOrEmpty(Slug)) return;
+        PostPageModel = await Http.GetFromJsonAsync<PostPageModel>($"{downrOptions.RootUrl}/api/post/{Slug}");
+        
+        if(PostPageModel != null && PostPageModel.Post != null)
+        {
+            await JSRuntime.InvokeVoidAsync("setTitle", $"{PostPageModel.Post.Title} - {downrOptions.Title}");
+        }
     }
 }
