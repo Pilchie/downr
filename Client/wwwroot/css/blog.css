@@ -57,7 +57,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .jumbotron {
-  background-image: linear-gradient(to bottom right, #7014eb, #4931de);
+  background-image: linear-gradient(to bottom right, #FF0000, #FFFF00);
   background-color: #328BBC !important;
   box-shadow: 0 0 5px 0 #000;
 }
@@ -155,7 +155,7 @@ h1, h2, h3, h4, h5, h6 {
  * Footer
  */
 footer, .footer {
-  background-image: linear-gradient(to bottom right, #7014eb, #4931de);
+  background-image: linear-gradient(to bottom right, #FF0000, #FFFF00);
   box-shadow: 0 0 5px 0 #000;
   padding-top: 20px;
   padding-bottom: 10px;
